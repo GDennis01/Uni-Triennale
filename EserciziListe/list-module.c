@@ -89,14 +89,40 @@ list list_insert_tail(list p, int val){
 
 list list_delete_if(list head , int to_delete){
     list tmp=head;
+	list prev=NULL;
     if(head == NULL)
         return head;
-    while(tmp->next != NULL){
-        if(tmp->value == to_delete){
+	//se l'elemento da togliere è il primo, restituisco la lista a partire dal secondo elemento
+	if(head->value == to_delete){
+		tmp=tmp->next;//aggiorno il tmp così posso deallocare head
+		free(head);
+		return tmp;
+	}
+	while(tmp != NULL){
+		if(tmp->value == to_delete){
+			prev->next=tmp->next;
+			free(tmp);
+			return head;
+		}
+		prev=tmp;
+		tmp=tmp->next;
+	}
+	return head;
+}
 
-            free(tmp);
-            return tmp->next;
-        }
-        tmp=tmp->next;
-    }
+list list_delete_odd(list head){
+	list tmp=head->next,tmp2=head->next;//parto direttamente dal secondo
+	list prev=head;
+	if(head == NULL)
+		return head;
+	free(prev);//dealloco il primo nodo
+	prev=NULL;
+	//le posizioni dispari sono in indice pari(i=0,i=2..)
+	for(int i=1;tmp!=NULL;prev=tmp,tmp=tmp->next,tmp2=tmp){
+		if(i%2==0){//se i è pari, allora siamo in posizioni dispari(0,1,2)
+			prev->next=tmp->next;
+			free(tmp2);
+		}
+	}
+	return head;
 }
