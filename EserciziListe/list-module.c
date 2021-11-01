@@ -117,12 +117,33 @@ list list_delete_odd(list head){
 		return head;
 	free(prev);//dealloco il primo nodo
 	prev=NULL;
+	head=tmp;
 	//le posizioni dispari sono in indice pari(i=0,i=2..)
-	for(int i=1;tmp!=NULL;prev=tmp,tmp=tmp->next,tmp2=tmp){
+
+	int i=1;
+	while(tmp != NULL){
+		
+		prev=tmp;
+		tmp=tmp->next;
+		tmp2=tmp;
+		
 		if(i%2==0){//se i è pari, allora siamo in posizioni dispari(0,1,2)
 			prev->next=tmp->next;
 			free(tmp2);
 		}
+		i++;
 	}
 	return head;
 }
+/*
+
+
+
+1)	[60] 	 	  [70]   	     [75]	  	   [80] 	  	  [90]
+	 |			    
+	 V				
+2)  DeAl.		  [70]   	     [75]	  	   [80] 	  	  [90]	//i=1,*prev=70   *tmp=75
+
+
+3)
+*/
