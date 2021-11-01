@@ -119,18 +119,16 @@ list list_delete_odd(list head){
 	prev=NULL;
 	head=tmp;
 	//le posizioni dispari sono in indice pari(i=0,i=2..)
-
 	int i=1;
-	while(tmp != NULL){
-		
-		prev=tmp;
-		tmp=tmp->next;
-		tmp2=tmp;
-		
-		if(i%2==0){//se i è pari, allora siamo in posizioni dispari(0,1,2)
-			prev->next=tmp->next;
+	while(tmp->next != NULL){
+
+		if(i%2 == 0){
+			tmp=prev->next->next;
 			free(tmp2);
 		}
+		prev=tmp;
+		tmp=tmp2;
+		tmp=tmp->next;
 		i++;
 	}
 	return head;
