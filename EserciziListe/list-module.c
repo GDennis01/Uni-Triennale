@@ -115,20 +115,22 @@ list list_delete_odd(list head){
 	list prev=head;
 	if(head == NULL)
 		return head;
-	free(prev);//dealloco il primo nodo
+	free(prev);//deallocating first node
 	prev=NULL;
 	head=tmp;
-	//le posizioni dispari sono in indice pari(i=0,i=2..)
+	//odd nodes are at even indexes(i=0,i=2 etc)
 	int i=1;
-	while(tmp->next != NULL){
-
-		if(i%2 == 0){
-			tmp=prev->next->next;
-			free(tmp2);
-		}
+	while(tmp != NULL){
+		if(i%2==0){//deallocating odd nodes
+		prev->next=prev->next->next;
+		tmp2=tmp;
+		tmp=prev->next;
+		free(tmp2);
+		}else{
 		prev=tmp;
-		tmp=tmp2;
 		tmp=tmp->next;
+		tmp2=tmp;
+		}
 		i++;
 	}
 	return head;

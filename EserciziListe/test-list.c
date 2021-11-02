@@ -16,6 +16,10 @@ int main()
 	head2= list_insert_tail(head2, 80);
 	head2= list_insert_tail(head2, 90);
 	head2= list_insert_ordered(head2,75);
+	head2= list_insert_tail(head2,100);
+	head2= list_insert_tail(head2,120);
+	head2= list_insert_tail(head2,170);
+	head2= list_insert_tail(head2,700);
 	//head= list_cat(head,head2);
 
 	list_print(head2);
