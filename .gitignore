@@ -1,2 +1,7 @@
 *.out
 .vscode/
+test.c
+EserciziListe/*.out
+ProvaGit/
+Simulazione Esame/*.out
+Esercizi/*.out
