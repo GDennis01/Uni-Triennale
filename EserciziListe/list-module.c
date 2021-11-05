@@ -111,10 +111,10 @@ list list_delete_if(list head , int to_delete){
 }
 
 list list_delete_odd(list head){
-	list tmp=head->next,tmp2=head->next;//parto direttamente dal secondo
-	list prev=head;
 	if(head == NULL)
 		return head;
+	list tmp=head->next;//parto direttamente dal secondo
+	list prev=head;
 	free(prev);//deallocating first node
 	prev=NULL;
 	head=tmp;
@@ -122,28 +122,48 @@ list list_delete_odd(list head){
 	int i=1;
 	while(tmp != NULL){
 		if(i%2==0){//deallocating odd nodes
-		prev->next=prev->next->next;
-		tmp2=tmp;
-		tmp=prev->next;
-		free(tmp2);
+			prev->next=prev->next->next;
+			free(tmp);
+			tmp=prev->next;
 		}else{
-		prev=tmp;
-		tmp=tmp->next;
-		tmp2=tmp;
+			prev=tmp;
+			tmp=tmp->next;
 		}
 		i++;
 	}
 	return head;
 }
-/*
+list list_cut_below(list head , int cut_value){
+	if(head == NULL)
+		return head;
+	list tmp=head,prev=NULL;
+	if(head->value < cut_value){//first node having a value below *cut_value*
+		head=head->next;
+		free(tmp);
+		tmp=head;
+	}
+	while(tmp != NULL){
+		if(tmp->value < cut_value){
+			prev->next=tmp->next;
+			free(tmp);
+			tmp=prev->next;
+		}else{
+		prev=tmp;	
+		tmp=tmp->next;
+		}
+	}
+	return head;
+}
 
-
-
-1)	[60] 	 	  [70]   	     [75]	  	   [80] 	  	  [90]
-	 |			    
-	 V				
-2)  DeAl.		  [70]   	     [75]	  	   [80] 	  	  [90]	//i=1,*prev=70   *tmp=75
-
-
-3)
-*/
+list list_dup(list head){
+	list new_list=malloc(sizeof(*head));
+	list tmp=head;
+	list tmp2=new_list;
+	while(tmp!= NULL){
+		new_list->value=tmp->value;
+		new_list->next=malloc(sizeof(tmp->next));
+		tmp=tmp->next;
+		new_list=new_list->next;
+	}
+	return tmp2;
+}
