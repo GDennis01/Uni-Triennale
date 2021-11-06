@@ -1,7 +1,7 @@
 *.out
 .vscode/
-test.c
-EserciziListe/*.out
+Sistemi Operativi/test.c
+Sistemi Operativi/EserciziListe/*.out
 ProvaGit/
-Simulazione Esame/*.out
-Esercizi/*.out
+Sistemi Operativi/Simulazione Esame/*.out
+Sistemi Operativi/Esercizi/*.out
