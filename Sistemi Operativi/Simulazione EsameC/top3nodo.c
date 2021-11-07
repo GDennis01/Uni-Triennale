@@ -33,6 +33,14 @@ int main(int argc, char const *argv[])
     nodo *nodo5=malloc(sizeof(head));
     nodo4->next=nodo5;
 
+    nodo5->val=170;
+    nodo *nodo6=malloc(sizeof(head));
+    nodo5->next=nodo6;
+
+    nodo6->val=2;
+    nodo *nodo7=malloc(sizeof(head));
+    nodo6->next=nodo7;
+
     printNode(head);
 
     nodo *newHead=top3(head);
@@ -46,6 +54,7 @@ nodo *top3(nodo * head){
     int val1=head->val,val2=head->val,val3=head->val;
     int i;
     for(i=0;tmp!=NULL;i++){
+        tmp=tmp->next;
     }
     if(i<=2)
         return head;//La lista ha 3 o meno nodi
@@ -55,7 +64,8 @@ nodo *top3(nodo * head){
     firstNode->next=secondNode;
     nodo *thirdNode=malloc(sizeof(thirdNode));
     secondNode->next=thirdNode;
-    printf("Prova");
+    printf("\nProva\n");
+    tmp=head;
     while(tmp != NULL){//first top value
         if(val1<tmp->val)
             val1=tmp->val;
@@ -69,7 +79,7 @@ nodo *top3(nodo * head){
     }
     tmp=head;
     while(tmp != NULL){//first top value
-        if(val3<tmp->val && tmp->val != val2 && tmp->val != val3)
+        if(val3<tmp->val && tmp->val != val2 && tmp->val != val3 && tmp->val != val1)
             val3=tmp->val;
         tmp=tmp->next;
     }
