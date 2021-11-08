@@ -1,0 +1,3 @@
+La wait aspetta la fine di un solo processo child.
+Per aspettare la fine di tutti i child processes, bisogna fare while(wait(NULL)!=-1);
+wait(null) restituisce -1 quando non si hanno più child processes
