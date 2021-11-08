@@ -1,4 +1,6 @@
 Vengono copiati i buffer
 Nell'esercizio "test-buf.c", con il redirect ./test >mare.txt, viene stampata prima la parte non bufferizzata 
 e poi stampa la parte bufferizzata(non stiamo tenendo conto del fork) Quindi stampa "dopo" e poi "prima"
-alla fine il fork, avendo copiato il buffer, lo svuota sul terminale
+Dopo "fork()", viene creato un child process e avendo copiato il buffer del parent, dopo la fine
+dell'esecuzione, lo svuota sul terminale.
+In generale, ogni programma, alla fine dell'esecuzione svuota il proprio buffer
