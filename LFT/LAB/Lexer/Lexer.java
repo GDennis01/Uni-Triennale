@@ -135,11 +135,10 @@ public class Lexer {
             default:
                 
                 if (Character.isLetter(peek)) {
-                    String word=""+peek;
-                    while (Character.isLetter(peek) || Character.isDefined(peek) && peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r') {
+                    String word="";
+                    while (/*Character.isLetter(peek) || Character.isDefined(peek) &&*/ peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r') {
+                        word=word+peek;
                         readch(br);
-                        if(Character.isLetter(peek) || Character.isDefined(peek) && peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r')
-                            word=word+peek;
                     }
                    if(word.matches("assign"))
                         return Word.assign;
@@ -164,11 +163,11 @@ public class Lexer {
                     // ... gestire il caso degli identificatori e delle parole chiave //
 
                 } else if (Character.isDigit(peek)) {
-                    String word=""+peek;
-                    while ( Character.isDigit(peek) && peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r') {
-                        readch(br);
-                        if(Character.isDigit(peek) && peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r')
+                    String word="";
+                    while ( /*Character.isDigit(peek) && */peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r') {
                         word=word+peek;
+                        readch(br);
+                        
                     }
                     if(word.matches("0||[1-9][0-9]*"))
                         return new NumberTok(Tag.NUM,word);
