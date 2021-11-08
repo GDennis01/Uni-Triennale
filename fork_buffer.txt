@@ -1,0 +1,4 @@
+Vengono copiati i buffer
+Nell'esercizio "test-buf.c", con il redirect ./test >mare.txt, viene stampata prima la parte non bufferizzata 
+e poi stampa la parte bufferizzata(non stiamo tenendo conto del fork) Quindi stampa "dopo" e poi "prima"
+alla fine il fork, avendo copiato il buffer, lo svuota sul terminale
