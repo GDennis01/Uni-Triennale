@@ -22,8 +22,8 @@ int main(int argc, char const *argv[])
 {
     char c;
     if(FILE_OPEN(argv[1]) == NULL){//se il fd è -1 allora c'è stato un errore
-    fprintf(stderr,"Error %d(%s) when trying to open file %s",errno,strerror(errno),argv[1]);
-    exit(EXIT_FAILURE);
+        fprintf(stderr,"Error %d(%s) when trying to open file %s",errno,strerror(errno),argv[1]);
+        exit(EXIT_FAILURE);
     }else{
         FILE_SEEK_END;//mi posiziono alla fine del file
         while(SEEK_ONE_CHAR_BACK != -1){//finchè sono nel file
