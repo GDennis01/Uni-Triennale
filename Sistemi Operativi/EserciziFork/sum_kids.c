@@ -30,9 +30,14 @@ int main(int argc, char const *argv[])
         break;
 
         default:
-            while(wait(NULL)!= -1);//wait for every child process to end
+            
+            while(wait(&status)!= -1){
+                sum=sum+WEXITSTATUS(status);
+            };//wait for every child process to end
+            
         break;
     }
     }
+    printf("Somma degli stati:%d",sum);
     return 0;
 }
