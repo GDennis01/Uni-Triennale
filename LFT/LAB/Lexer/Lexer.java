@@ -136,7 +136,7 @@ public class Lexer {
                 
                 if (Character.isLetter(peek)) {
                     String word="";
-                    while (/*Character.isLetter(peek) || Character.isDefined(peek) &&*/ peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r') {
+                    while ( peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r') {
                         word=word+peek;
                         readch(br);
                     }
