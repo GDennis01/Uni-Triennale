@@ -24,10 +24,12 @@ public class Es1_4 {
                     state = 1;
                 else if (Character.isDigit(ch) && Integer.parseInt(Character.toString(ch)) % 2 == 1)// n dispari
                     state = 2;
-                else if (ch >= 65 && ch <= 75)// ch€[A-L]
+                else if (ch >= 65 && ch <= 75)// ch€[A-K]
                     state = 3;
-                else if (ch >= 76 && ch <= 90)
+                else if (ch >= 76 && ch <= 90)// ch€[L-Z]
                     state = 7;
+                else if (ch == '_')
+                    state = 6;
                 else
                     state = -1;
                 break;
@@ -37,37 +39,85 @@ public class Es1_4 {
                     state = 1;
                 else if (Character.isDigit(ch) && Integer.parseInt(Character.toString(ch)) % 2 == 1)
                     state = 2;
-                else if (ch >= 76 && ch <= 90)// ch€[K-Z]
+                else if (ch >= 76 && ch <= 90)// ch€[L-Z]
                     state = 3;
+                else if (ch >= 65 && ch <= 75)// ch€[A-K]
+                    state = 7;
+                else if (ch == '_')
+                    state = 4;
+                else
+                    state = -1;
+                break;
+
+            case 3:
+                if (ch >= 97 && ch <= 122)// ch€[a-z]
+                    state = 3;
+                else if (Character.isDigit(ch))// ch è un numero
+                    state = 7;
+                else if (ch == '_')
+                    state = 4;
                 else if (ch >= 65 && ch <= 75)
                     state = 7;
                 else
                     state = -1;
                 break;
 
-            case 3:
-                if (ch >= 97 && ch <= 122)
+            case 4:
+                if (ch >= 65 && ch <= 90) // ch€[A-Z]
                     state = 3;
-                else if (Character.isDigit(ch))
+                else if (ch == '_')
                     state = 4;
-                else
+                else if (Character.isDigit(ch))
+                    state = 7;
+                else if (ch >= 97 && ch <= 122) // ch€[a-z]
+                    state = 7;
+                else 
                     state = -1;
                 break;
 
-            case 4:
-                state = 4;
+            case 5:
+                if (ch >= 65 && ch <= 90) // ch€[A-Z]
+                    state = 6;
+                else if (Character.isDigit(ch))
+                    state = 7;
+                else if (ch >= 97 && ch <= 122) // ch€[a-z]
+                    state = 7;
+                else if (ch == '_')
+                    state = 5;
+                else 
+                    state = -1;
+                break;
+            
+            case 6:
+                if (Character.isDigit(ch))
+                    state = 7;
+                else if (ch >= 97 && ch<=122) // ch€[a-z]
+                    state = 6;
+                else if (ch>=65 && ch <= 90)
+                    state = 7;
+                else if (ch == '_')
+                    state = 5;
+                else
+                    state = -1;
+                break;
+            
+            case 7:
+                state = 7;
+        
+                break;
+
             }
         }
-        return state == 3 ;
+        return state == 3 || state == 6;
     }
 
     public static void main(String[] args) {
-        System.out.println(scan("123456Bianchi") ? "OK" : "NOPE");
-        System.out.println(scan("654321Rossi") ? "OK" : "NOPE");
-        System.out.println(scan("654321Bianchi") ? "OK" : "NOPE");
-        System.out.println(scan("123456Rossi") ? "OK" : "NOPE");
-        System.out.println(scan("2Bianchi") ? "OK" : "NOPE");
-        System.out.println(scan("2B") ? "OK" : "NOPE");
+        System.out.println(scan("123456 Bianchi") ? "OK" : "NOPE");
+        System.out.println(scan("654321 Rossi") ? "OK" : "NOPE");
+        System.out.println(scan("654321 Bianchi") ? "OK" : "NOPE");
+        System.out.println(scan("123456 Rossi") ? "OK" : "NOPE");
+        System.out.println(scan("2 Bianchi") ? "OK" : "NOPE");
+        System.out.println(scan("2 Be Dennis") ? "OK" : "NOPE");
         System.out.println(scan("654322") ? "OK" : "NOPE");
         System.out.println(scan("Rossi") ? "OK" : "NOPE");
 
