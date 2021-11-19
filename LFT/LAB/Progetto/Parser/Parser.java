@@ -31,19 +31,20 @@ public class Parser {
     public void start() {
         switch (look.tag) {
         case Tag.LPT:
-            match(Tag.LPT);
+            //match(Tag.LPT);//it doesnt have to match
             expr();
             match(Tag.EOF);
             break;
 
         case Tag.NUM:
-            match(Tag.NUM);
+            //match(Tag.NUM);
             expr();
             match(Tag.EOF);
             break;
 
         default:
             error("Error in start()");
+            break;
         }
 
     }
@@ -73,36 +74,31 @@ public class Parser {
 
     private void exprp() {
         switch (look.tag) {
-        case '+':
-            match('+');
+        case Tag.SUM:
+            match( Tag.SUM);
             term();
             exprp();
             break;
 
-        case '-':
-            match('-');
+        case Tag.SUB:
+            match( Tag.SUB);
             term();
             exprp();
             break;
 
         case Tag.RPT:
-            //match(Tag.RPT);
+            match(Tag.RPT);
             // do nothing
             break;
 
-        case Tag.EOF:
-            match(Tag.EOF);
-            // do nothing
-            break;
-        default:
-            error("Error in exprp()");
-            break;
+        //No default action due to epsilon production
+
         }
     }
 
     private void term() {
         switch (look.tag) {
-        case '(':
+        case Tag.LPT:
             //match('(');
             fact();
             termp();
@@ -122,38 +118,33 @@ public class Parser {
 
     private void termp() {
         switch (look.tag) {
-        case '*':
-            match('*');
+        case Tag.MUL:
+            match(Tag.MUL);
             fact();
-            exprp();
+            termp();
             break;
 
-        case '/':
-            match('/');
+        case Tag.DIV:
+            match(Tag.DIV);
             fact();
-            exprp();
+            termp();
             break;
 
-        case ')':
-            match(')');
+        case Tag.RPT:
+            match(Tag.RPT);
             // do nothing
             break;
 
-        case Tag.EOF:
-            match(Tag.EOF);
-            // do nothing
-            break;
-        default:
-            error("Error in exprp()");
-            break;
+        //No default action due to epsilon production
+
         }
     }
 
     private void fact() {
         switch (look.tag) {
 
-        case '(':
-            match('(');
+        case Tag.LPT:
+            match(Tag.LPT);
             expr();
             break;
 

@@ -2,7 +2,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Lexer {
+public class Lexer2_1 {
 
     public static int line = 1;
     private char peek = ' ';
@@ -97,7 +97,7 @@ public class Lexer {
                 } else if (peek == '>') {
                     peek = ' ';
                     return Word.ne;
-                } else if (peek == ' ') {
+                } else if (peek == ' ') {//5<3
                     peek = ' ';
                     return Word.lt;
                 } else {
@@ -164,7 +164,7 @@ public class Lexer {
 
                 } else if (Character.isDigit(peek)) {
                     String word="";
-                    while ( /*Character.isDigit(peek) && */peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r') {
+                    while ( Character.isDigit(peek) && peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r') {
                         word=word+peek;
                         readch(br);
                         
@@ -182,7 +182,7 @@ public class Lexer {
     }
 
     public static void main(String[] args) {
-        Lexer lex = new Lexer();
+        Lexer2_1 lex = new Lexer2_1();
         String path = "/Miriam.txt"; // il percorso del file da leggere
         File f=new File("Miriam.txt");
         try {
