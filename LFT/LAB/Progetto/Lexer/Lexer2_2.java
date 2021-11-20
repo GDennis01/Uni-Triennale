@@ -97,7 +97,7 @@ public class Lexer2_2 {
                 } else if (peek == '>') {
                     peek = ' ';
                     return Word.ne;
-                } else if (peek == ' ') {//5<3
+                } else if (peek == ' ' || Character.isDigit(peek) || Character.isLetter(peek)) {//5<3
                     peek = ' ';
                     return Word.lt;
                 } else {
@@ -110,7 +110,7 @@ public class Lexer2_2 {
                 if (peek == '=') {
                     peek = ' ';
                     return Word.ge;
-                } else if (peek == ' ') {
+                } else if (peek == ' ' || Character.isDigit(peek) || Character.isLetter(peek)) {
                     peek = ' ';
                     return Word.gt;
                 } else {
@@ -136,7 +136,7 @@ public class Lexer2_2 {
                 
                 if (Character.isLetter(peek) || peek == '_') {
                     String word="";
-                    while ( peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r') {
+                    while ( Character.isLetter(peek) && peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r') {
                         word=word+peek;
                         readch(br);
                     }

@@ -1,4 +1,1 @@
-while (5 + 5 == 10 && 5 < 3)
-   assign 10 to _c
-   assign 20 to you
-   
+s<printread) assign ifs+1 to ifs
