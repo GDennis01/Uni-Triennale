@@ -120,7 +120,7 @@ public class Lexer2_2 {
 
             case '=':
                 readch(br);
-                if(peek == '='){
+                if(peek == ' ' || Character.isDigit(peek) || Character.isLetter(peek)){
                     peek = ' ';
                     return Word.eq;
                 } else {
