@@ -104,7 +104,13 @@ public class Es1_7 {
     }
 
     public static void main(String[] args) {
-        System.out.println(scan("Denni%") ? "OK" : "NOPE");
+        System.out.println(scan("Denni%") ? "OK" : "NOPE");//OK
+        System.out.println(scan("Denn%s") ? "OK" : "NOPE");//OK
+        System.out.println(scan("Den%is") ? "OK" : "NOPE");//OK
+        System.out.println(scan("De%nis") ? "OK" : "NOPE");//OK
+        System.out.println(scan("D%nnis") ? "OK" : "NOPE");//OK
+        System.out.println(scan("%ennis") ? "OK" : "NOPE");//OK
+        System.out.println(scan("D%n%is") ? "OK" : "NOPE");//NOPE
 
     }
 }
