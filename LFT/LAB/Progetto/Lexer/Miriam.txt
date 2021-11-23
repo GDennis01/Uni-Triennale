@@ -1,1 +1,1 @@
-(34+26( - (2+15-( 27
+assign 300 to d /*distanza*//*da Torino a Lione*/
