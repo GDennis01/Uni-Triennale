@@ -134,7 +134,12 @@ public class Parser {
             match(Tag.RPT);
             // do nothing
             break;
-
+        
+        case Tag.SUM:
+            break;
+            
+        case Tag.SUB:
+            break;
         //No default action due to epsilon production
 
         }
