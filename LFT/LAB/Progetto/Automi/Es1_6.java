@@ -1,5 +1,5 @@
 public class Es1_6 {
-
+    //TODO: FIXING ES1.6
     public static boolean scan(String s) {
 
         int state = 0;
@@ -97,6 +97,7 @@ public class Es1_6 {
         System.out.println(scan("123456Rossi") ? "OK" : "NOPE");// OK
         System.out.println(scan("654321Bianchi") ? "OK" : "NOPE");// OK
         System.out.println(scan("221B") ? "OK" : "NOPE");// OK
+        System.out.println(scan("111R") ? "OK" : "NOPE");// OK
         System.out.println(scan("123456Bianchi") ? "OK" : "NOPE");// NOPE
         System.out.println(scan("654321Rossi") ? "OK" : "NOPE");// NOPE
         System.out.println(scan("2Bianchi") ? "OK" : "NOPE");// NOPE
