@@ -71,26 +71,29 @@ public class Parser2 {
     private void statlist() {
         switch (look.tag) {
             // Insiemi guida della produzione <statlist> => <stat> <statlistp>
-            case Tag.SEMICOLON:
+            case Tag.ASSIGN:
                 stat();
                 statlistp();
                 break;
 
-            case Tag.END:
+            case Tag.PRINT:
                 stat();
                 statlistp();
                 break;
 
-            case Tag.ELSE:
+            case Tag.READ:
                 stat();
                 statlistp();
                 break;
 
-            case Tag.EOF:
+            case Tag.WHILE:
                 stat();
                 statlistp();
                 break;
-
+            case Tag.IF:
+                stat();
+                statlistp();
+                break;
             case Tag.RGT:
                 stat();
                 statlistp();

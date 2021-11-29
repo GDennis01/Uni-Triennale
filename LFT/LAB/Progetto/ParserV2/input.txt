@@ -1,1 +1,5 @@
-1+2)
+read(a,b);
+while (<> a b)
+	if (> a b) assign - a b to a
+	else assign - b a to b end;
+print(a)
