@@ -253,7 +253,14 @@ public class Parser2 {
 
     private void bexpr() {
         switch (look.tag) {
-            //Insieme guida della produzione <bexpr> => RELOP <expr> <expr>
+            // Insieme guida della produzione <bexpr> => RELOP <expr> <expr>
+
+            case Tag.RELOP:
+                match(Tag.RELOP);
+                expr();
+                expr();
+                break;
+
             default:
                 error("Error in bexpr()");
                 break;
@@ -263,6 +270,40 @@ public class Parser2 {
 
     private void expr() {
         switch (look.tag) {
+            // Insieme guida della produzione <expr> => +(<exprlist>)
+            case Tag.SUM:
+                match(Tag.SUM);
+                match(Tag.LPT);
+                exprlist();
+                match(Tag.RPT);
+                break;
+            // Insieme guida della produzione <expr> => -<expr><expr>
+            case Tag.SUB:
+                match(Tag.SUB);
+                expr();
+                expr();
+                break;
+            // Insieme guida della produzione <expr> => *(<exprlist>)
+            case Tag.MUL:
+                match(Tag.MUL);
+                match(Tag.LPT);
+                exprlist();
+                match(Tag.RPT);
+                break;
+            // Insieme guida della produzione <expr> => /<expr><expr>
+            case Tag.DIV:
+                match(Tag.DIV);
+                expr();
+                expr();
+                break;
+            // Insieme guida della produzione <expr> => NUM
+            case Tag.NUM:
+                match(Tag.NUM);
+                break;
+            // Insieme guida della produzione <expr> => ID
+            case Tag.ID:
+                match(Tag.ID);
+                break;
 
             default:
                 error("Error in expr()");
@@ -273,7 +314,31 @@ public class Parser2 {
 
     private void exprlist() {
         switch (look.tag) {
-
+            // Insiemi guida della produzione <exprlist> => <expr><exprlistp>
+            case Tag.SUM:
+                expr();
+                exprlistp();
+                break;
+            case Tag.SUB:
+                expr();
+                exprlistp();
+                break;
+            case Tag.MUL:
+                expr();
+                exprlistp();
+                break;
+            case Tag.DIV:
+                expr();
+                exprlistp();
+                break;
+            case Tag.NUM:
+                expr();
+                exprlistp();
+                break;
+            case Tag.ID:
+                expr();
+                exprlistp();
+                break;
             default:
                 error("Error in exprlist()");
                 break;
@@ -283,7 +348,16 @@ public class Parser2 {
 
     private void exprlistp() {
         switch (look.tag) {
+            //Insieme guida della produzione <exprlistp> => , <expr><exprlistp>
+            case Tag.COMMA:
+                match(Tag.COMMA);
+                expr();
+                exprlistp();
+                break;
 
+            //Insieme guida della produzione <exprlistp> => Epsilon
+            case Tag.RPT:
+                break;
             default:
                 error("Error in exprlistp()");
                 break;
