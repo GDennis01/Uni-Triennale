@@ -86,6 +86,7 @@ public class Lexer2_3 {
                 } while (!trovato);
                 return lexical_scan(br);
             }
+            return lexical_scan(br);
 
         case ';':
             peek = ' ';
@@ -210,8 +211,8 @@ public class Lexer2_3 {
 
     public static void main(String[] args) {
         Lexer2_3 lex = new Lexer2_3();
-        String path = "/Miriam.txt"; // il percorso del file da leggere
-        File f = new File("Miriam.txt");
+        String path = "input.txt"; // il percorso del file da leggere
+        File f = new File(path);
         try {
             BufferedReader br = new BufferedReader(new FileReader(f.getAbsolutePath()));
             Token tok;

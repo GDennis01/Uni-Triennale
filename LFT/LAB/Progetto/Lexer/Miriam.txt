@@ -1,1 +1,1 @@
-assign 300 to d /*distanza*//*da Torino a Lione*/
+(1)*(2)/(3)

@@ -71,27 +71,36 @@ public class Parser {
 
         // ... completare ...
     }
+    /*
 
+
+    Insieme GUida(EXPR->"+<term><exprp>")
+    Insieme Guida(Expr->"-<term><exprp>")
+    Insieme Guida(Expr->"epsilon")
+    */
     private void exprp() {
         switch (look.tag) {
-        case Tag.SUM:
+        case Tag.SUM://insieme guida prima prod
             match( Tag.SUM);
             term();
             exprp();
             break;
 
-        case Tag.SUB:
+        case Tag.SUB://insieme guida seconda prod
             match( Tag.SUB);
             term();
             exprp();
             break;
 
-        case Tag.RPT:
-            match(Tag.RPT);
-            // do nothing
+        case Tag.RPT://insieme guida epsilon(terza prod)
             break;
 
-        //No default action due to epsilon production
+        case Tag.EOF://insieme guida epsilon(terza prod)
+            break;
+
+        default:
+            error("Error in Exprp()");
+            break;
 
         }
     }
@@ -118,27 +127,32 @@ public class Parser {
 
     private void termp() {
         switch (look.tag) {
-        case Tag.MUL:
+        case Tag.MUL://Insieme guida prima prod
             match(Tag.MUL);
             fact();
             termp();
             break;
 
-        case Tag.DIV:
+        case Tag.DIV://Insieme guida seconda prod
             match(Tag.DIV);
             fact();
             termp();
             break;
 
-        case Tag.RPT:
-            match(Tag.RPT);
-            // do nothing
+        case Tag.RPT://Insieme guida epsilon(terza prod)
             break;
         
-        case Tag.SUM:
+        case Tag.SUM://Insieme guida epsilon(terza prod)
             break;
             
-        case Tag.SUB:
+        case Tag.SUB://Insieme guida epsilon(terza prod)
+            break;
+
+        case Tag.EOF://Insieme guida epsilon(terza prod)
+            break;
+
+        default:
+            error("Error in termp()");
             break;
         //No default action due to epsilon production
 
@@ -148,12 +162,13 @@ public class Parser {
     private void fact() {
         switch (look.tag) {
 
-        case Tag.LPT:
+        case Tag.LPT://Insieme guida prima prod
             match(Tag.LPT);
             expr();
+            match(Tag.RPT);
             break;
 
-        case Tag.NUM:
+        case Tag.NUM://Insieme guida seconda prod
             match(Tag.NUM);
             break;
 
