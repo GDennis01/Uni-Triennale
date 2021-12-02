@@ -7,7 +7,7 @@ public class NumberTok extends Token {
         lexeme = s;
     }
     @Override
-    public String getLexeme(){
+    public String getLexeme(){//metodo get che mi servirà per farmi restituire il lessema nel valutatore
         return lexeme;
     }
     public String toString() {

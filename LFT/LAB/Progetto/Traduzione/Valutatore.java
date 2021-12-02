@@ -131,7 +131,7 @@ public class Valutatore {
     }
 
     private int termp(int termp_i) {
-        int fact_val,termp_val=termp_i;
+        int fact_val,termp_val=termp_i;//nel caso in cui l'insieme guida sia quello epsilon, il valore di termp_val è quello di termp_i stesso
         switch (look.tag) {
             case Tag.MUL:// Insieme guida prima prod
                 match(Tag.MUL);
@@ -176,9 +176,9 @@ public class Valutatore {
                 return expr_val;
 
             case Tag.NUM:// Insieme guida seconda prod
-                fact_val=Integer.parseInt(look.getLexeme());
+                fact_val=Integer.parseInt(look.getLexeme());//Mi salvo il valore del lessema di look prima che venga fatto il match(e quindi passi al token successivo)
                 match(Tag.NUM);
-                return(fact_val);
+                return(fact_val);//restituisco il valore del numero matchato
 
             default:
                 error("Error in fact()");
