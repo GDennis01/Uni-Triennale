@@ -6,6 +6,10 @@ public class NumberTok extends Token {
         super(tag);
         lexeme = s;
     }
+    @Override
+    public String getLexeme(){
+        return lexeme;
+    }
     public String toString() {
         return "<" + tag + ", " + lexeme + ">";
     }

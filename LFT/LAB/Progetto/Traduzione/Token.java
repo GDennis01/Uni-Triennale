@@ -3,6 +3,10 @@ public class Token {
     public final int tag;
     public Token(int t) { tag = t;  }
     public String toString() {return "<" + tag + ","+(char)tag+">";}
+	
+	public String getLexeme(){
+		return "";
+	}
     public static final Token
 	not = new Token('!'),
 	lpt = new Token('('),

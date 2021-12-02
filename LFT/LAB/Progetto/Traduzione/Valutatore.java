@@ -60,15 +60,14 @@ public class Valutatore {
                 term_val = term();
                 //exprp();
                 exprp_val = exprp(term_val);
-                break;
+                return exprp_val;
 
             case Tag.NUM:
                 //term();
                 term_val = term();
                 //exprp();
                 exprp_val = exprp(term_val);
-                break;
-
+                return exprp_val;
             default:
                 error("Error in expr()");
                 break;
@@ -79,7 +78,7 @@ public class Valutatore {
     private int exprp(int exprp_i) {
         int term_val, exprp_val=0;
         switch (look.tag) {
-            case '+':
+            case Tag.SUM:
                 match('+');//+
                 term_val = term();//term() sarebbe <term> e l'assegnazione sarebbe il "+term.val" nell'azione semantica dopo <term>
                 exprp_val = exprp(exprp_i + term_val);
@@ -110,81 +109,86 @@ public class Valutatore {
     }
 
     private int term() {
+        int termp_i,term_val=0;
         switch (look.tag) {
             case Tag.LPT:
                 // match('(');
-                fact();
-                termp();
-                break;
+                termp_i=fact();
+                term_val=termp(termp_i);
+                return term_val;
 
             case Tag.NUM:
                 // match(Tag.NUM);
-                fact();
-                termp();
-                break;
+                termp_i=fact();
+                term_val=termp(termp_i);
+                return term_val;
+                
 
             default:
                 error("Error in term()");
-                break;
+                return 0;
         }
     }
 
-    private void termp() {
+    private int termp(int termp_i) {
+        int fact_val,termp_val=termp_i;
         switch (look.tag) {
             case Tag.MUL:// Insieme guida prima prod
                 match(Tag.MUL);
-                fact();
-                termp();
-                break;
+                fact_val=fact();
+                termp_val = termp(termp_i * fact_val);
+                return termp_val;
+               
 
             case Tag.DIV:// Insieme guida seconda prod
                 match(Tag.DIV);
-                fact();
-                termp();
-                break;
+                fact_val=fact();
+                termp_val = termp(termp_i / fact_val);
+                return termp_val;
 
             case Tag.RPT:// Insieme guida epsilon(terza prod)
-                break;
+            return termp_val;
 
             case Tag.SUM:// Insieme guida epsilon(terza prod)
-                break;
+                return termp_val;
 
             case Tag.SUB:// Insieme guida epsilon(terza prod)
-                break;
+            return termp_val;
 
             case Tag.EOF:// Insieme guida epsilon(terza prod)
-                break;
+            return termp_val;
 
             default:
                 error("Error in termp()");
-                break;
-            // No default action due to epsilon production
+                return 0;
 
         }
     }
 
-    private void fact() {
+    private int fact() {
+        int expr_val=0,fact_val=0;
         switch (look.tag) {
 
             case Tag.LPT:// Insieme guida prima prod
                 match(Tag.LPT);
-                expr();
+                expr_val=expr();
                 match(Tag.RPT);
-                break;
+                return expr_val;
 
             case Tag.NUM:// Insieme guida seconda prod
+                fact_val=Integer.parseInt(look.getLexeme());
                 match(Tag.NUM);
-                break;
+                return(fact_val);
 
             default:
                 error("Error in fact()");
-                break;
+                return 0;
         }
     }
 
     public static void main(String[] args) {
-        Lexer2_32_3 lex = new Lexer2_32_3();
-        String path = "...path..."; // il percorso del file da leggere
+        Lexer2_3 lex = new Lexer2_3();
+        String path = "input.txt"; // il percorso del file da leggere
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
             Valutatore valutatore = new Valutatore(lex, br);

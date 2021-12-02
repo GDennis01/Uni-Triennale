@@ -199,7 +199,6 @@ public class Lexer2_3 {
                 }
                 if (word.matches("0|[1-9][0-9]*"))
                     return new NumberTok(Tag.NUM, word);
-                // ... gestire il caso dei numeri ... //
 
             } else {
                 System.err.println("Erroneous character: " + peek);
