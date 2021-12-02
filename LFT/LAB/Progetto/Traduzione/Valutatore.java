@@ -1,11 +1,11 @@
 import java.io.*;
 
 public class Valutatore {
-    private Lexer lex;
+    private Lexer2_3 lex;
     private BufferedReader pbr;
     private Token look;
 
-    public Valutatore(Lexer l, BufferedReader br) {
+    public Valutatore(Lexer2_3 l, BufferedReader br) {
         lex = l;
         pbr = br;
         move();
@@ -30,58 +30,86 @@ public class Valutatore {
 
     public void start() {
         int expr_val;
+        switch (look.tag) {
+            case Tag.LPT: {
+                expr_val = expr();
+                match(Tag.EOF);
+                System.out.println(expr_val);
+            }
+                break;
 
-        // ... completare ...
+            case Tag.NUM: {
+                expr_val = expr();
+                match(Tag.EOF);
+                System.out.println(expr_val);
+            }
+                break;
 
-        expr_val = expr();
-        match(Tag.EOF);
-
-        System.out.println(expr_val);
-
-        // ... completare ...
+            default:
+                error("Error in start()");
+                break;
+        }
     }
 
     private int expr() {
-        int term_val, exprp_val;
+        int term_val=0, exprp_val=0;
 
-        // ... completare ...
+        switch (look.tag) {
+            case Tag.LPT:
+                //term();
+                term_val = term();
+                //exprp();
+                exprp_val = exprp(term_val);
+                break;
 
-        term_val = term();
-        exprp_val = exprp(term_val);
+            case Tag.NUM:
+                //term();
+                term_val = term();
+                //exprp();
+                exprp_val = exprp(term_val);
+                break;
 
-        // ... completare ...
+            default:
+                error("Error in expr()");
+                break;
+        }
         return exprp_val;
     }
 
     private int exprp(int exprp_i) {
-        int term_val, exprp_val;
+        int term_val, exprp_val=0;
         switch (look.tag) {
             case '+':
-                match('+');
-                term_val = term();
+                match('+');//+
+                term_val = term();//term() sarebbe <term> e l'assegnazione sarebbe il "+term.val" nell'azione semantica dopo <term>
                 exprp_val = exprp(exprp_i + term_val);
-                break;
+                /*exprp_i + term_val equivale all'azione semantica exprp_1.i = exprp.i + term.val.
+                Ciò perchè l'argomento di exprp è l'attributo ereditato di exprp stesso. 
+                Passandogli come argomento exprp.i+term.val, gli stiamo dicendo che l'argomento(quindi l'attributo ereditato) è uguale appunto alla somma.
+                L'invocazione del metodo corrisponde a <exprp1>. 
+                L'assegnazione corrisponde all'azione semantica exprp.val=exprp1.val*/
+                return exprp_val;
 
             case Tag.SUB:// insieme guida seconda prod
                 match(Tag.SUB);
-                term();
-                exprp();
-                break;
+                term_val=term();
+                exprp_val = exprp(exprp_i - term_val);
+                return exprp_val;
 
             case Tag.RPT:// insieme guida epsilon(terza prod)
-                break;
+                return exprp_i;
 
             case Tag.EOF:// insieme guida epsilon(terza prod)
-                break;
+                return exprp_i;
 
             default:
                 error("Error in Exprp()");
-                break;
+                return 0;
 
         }
     }
 
-    private void term() {
+    private int term() {
         switch (look.tag) {
             case Tag.LPT:
                 // match('(');
@@ -155,7 +183,7 @@ public class Valutatore {
     }
 
     public static void main(String[] args) {
-        Lexer lex = new Lexer();
+        Lexer2_32_3 lex = new Lexer2_32_3();
         String path = "...path..."; // il percorso del file da leggere
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
