@@ -4,9 +4,9 @@ public class Token {
     public Token(int t) { tag = t;  }
     public String toString() {return "<" + tag + ","+(char)tag+">";}
 	
-	public String getLexeme(){//Metodo get per il lessema. Viene overrideato da quello della classe NumberTok
+	/*public String getLexeme(){//Metodo get per il lessema. Viene overrideato da quello della classe NumberTok
 		return "Error";
-	}
+	}*/
     public static final Token
 	not = new Token('!'),
 	lpt = new Token('('),

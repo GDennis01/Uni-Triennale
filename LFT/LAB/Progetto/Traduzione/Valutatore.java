@@ -176,7 +176,8 @@ public class Valutatore {
                 return expr_val;
 
             case Tag.NUM:// Insieme guida seconda prod
-                fact_val=Integer.parseInt(look.getLexeme());//Mi salvo il valore del lessema di look prima che venga fatto il match(e quindi passi al token successivo)
+                //fact_val=Integer.parseInt(look.getLexeme());//Mi salvo il valore del lessema di look prima che venga fatto il match(e quindi passi al token successivo)
+                fact_val=((NumberTok)look).getLexeme();
                 match(Tag.NUM);
                 return(fact_val);//restituisco il valore del numero matchato
 

@@ -6,9 +6,9 @@ public class NumberTok extends Token {
         super(tag);
         lexeme = s;
     }
-    @Override
-    public String getLexeme(){//metodo get che mi servirà per farmi restituire il lessema nel valutatore
-        return lexeme;
+   // @Override
+    public int getLexeme(){//metodo get che mi servirà per farmi restituire il lessema(in int) nel valutatore
+        return Integer.parseInt(lexeme);
     }
     public String toString() {
         return "<" + tag + ", " + lexeme + ">";
