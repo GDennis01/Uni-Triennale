@@ -2,7 +2,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Lexer {
+public class Lexer2_2 {
 
     public static int line = 1;
     private char peek = ' ';
@@ -97,7 +97,7 @@ public class Lexer {
                 } else if (peek == '>') {
                     peek = ' ';
                     return Word.ne;
-                } else if (peek == ' ') {
+                } else if (peek == ' ' || Character.isDigit(peek) || Character.isLetter(peek)) {//5<3
                     peek = ' ';
                     return Word.lt;
                 } else {
@@ -110,7 +110,7 @@ public class Lexer {
                 if (peek == '=') {
                     peek = ' ';
                     return Word.ge;
-                } else if (peek == ' ') {
+                } else if (peek == ' ' || Character.isDigit(peek) || Character.isLetter(peek)) {
                     peek = ' ';
                     return Word.gt;
                 } else {
@@ -120,7 +120,7 @@ public class Lexer {
 
             case '=':
                 readch(br);
-                if(peek == '='){
+                if(peek == ' ' || Character.isDigit(peek) || Character.isLetter(peek)){
                     peek = ' ';
                     return Word.eq;
                 } else {
@@ -134,9 +134,9 @@ public class Lexer {
 
             default:
                 
-                if (Character.isLetter(peek)) {
+                if (Character.isLetter(peek) || peek == '_') {
                     String word="";
-                    while ( peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r') {
+                    while ( Character.isLetter(peek) && peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r') {
                         word=word+peek;
                         readch(br);
                     }
@@ -158,18 +158,18 @@ public class Lexer {
                         return Word.print;
                    if(word.matches("read"))
                         return Word.read;
-                   if(word.matches("[a-zA-Z][a-zA-Z0-9]*")) 
+                   if(word.matches("([a-zA-Z]|(_(_)*[a-zA-Z]))[a-zA-Z0-9]*")) 
                         return new Word(Tag.ID,word);
                     // ... gestire il caso degli identificatori e delle parole chiave //
 
                 } else if (Character.isDigit(peek)) {
                     String word="";
-                    while ( /*Character.isDigit(peek) && */peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r') {
+                    while ( Character.isDigit(peek) && peek != ' ' && peek != '\t' && peek != '\n' && peek != '\r') {
                         word=word+peek;
                         readch(br);
                         
                     }
-                    if(word.matches("0||[1-9][0-9]*"))
+                    if(word.matches("0|[1-9][0-9]*"))
                         return new NumberTok(Tag.NUM,word);
                     // ... gestire il caso dei numeri ... //
 
@@ -182,7 +182,7 @@ public class Lexer {
     }
 
     public static void main(String[] args) {
-        Lexer lex = new Lexer();
+        Lexer2_2 lex = new Lexer2_2();
         String path = "/Miriam.txt"; // il percorso del file da leggere
         File f=new File("Miriam.txt");
         try {

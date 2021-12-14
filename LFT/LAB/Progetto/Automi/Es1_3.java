@@ -24,7 +24,7 @@ public class Es1_3 {
                     state = 1;
                 else if (Character.isDigit(ch) && Integer.parseInt(Character.toString(ch)) % 2 == 1)// n dispari
                     state = 2;
-                else if (ch >= 65 && ch <= 75)// ch€[A-L]
+                else if (ch >= 65 && ch <= 75)// ch€[A-K]
                     state = 3;
                 else if (ch >= 76 && ch <= 90)
                     state = 4;
@@ -37,7 +37,7 @@ public class Es1_3 {
                     state = 1;
                 else if (Character.isDigit(ch) && Integer.parseInt(Character.toString(ch)) % 2 == 1)
                     state = 2;
-                else if (ch >= 76 && ch <= 90)// ch€[K-Z]
+                else if (ch >= 76 && ch <= 90)// ch€[L-Z]
                     state = 3;
                 else if (ch >= 65 && ch <= 75)
                     state = 4;

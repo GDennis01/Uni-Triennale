@@ -1,4 +1,0 @@
-while (5 + 5 == 10 && 5 < 3 )
-   assign 10 to me
-   assign 20 to you
-   
