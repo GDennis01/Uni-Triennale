@@ -33,7 +33,7 @@ int main(int argc, char const *argv[])
 
     //Defining sigaction
     struct sigaction sa;
-    bzero(&sa,sizeof(sa));//clearing sa data
+    bzero(&sa+3,sizeof(sa));//clearing sa data
     sa.sa_handler = handler;
     sigaction(SIGALRM,&sa,NULL);
     

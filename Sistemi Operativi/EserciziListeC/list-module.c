@@ -14,6 +14,24 @@ list list_insert_head(list p, int val)
 	return new_el;
 }
 
+list list_insert_tailMiriam(list p, int val){
+	list new_el;
+	new_el= malloc(sizeof(*new_el));
+	list copia  = p;
+	for(; p-> next!=NULL; p = p-> next){
+
+	}
+	p->next = new_el;
+	new_el->value = val;
+	new_el->next = NULL;
+	return copia;
+
+
+
+
+
+
+}
 void list_print(list p)
 {
 	/* Looping all nodes until p == NULL */
