@@ -90,7 +90,7 @@ public class Translator {
                 match(Tag.ASSIGN);
                 expr();
                 match(Tag.TO);
-                idlist();
+                idlist(1);
                 break;
 
             //Guida(<stat> => print(<exprlist>)) = [print]
@@ -105,13 +105,14 @@ public class Translator {
             case Tag.READ:
                 match(Tag.READ);
                 match('(');
-                idlist(/* completare */);
+                idlist(0);
                 match(')');
                 // ... completare ...
                 break;
 
             //Guida(<stat> => while(<brexpr>)<stat>) = [while]
             case Tag.WHILE:
+                int trueLabel=code.newLabel(),falseLabel=code.newLabel();
                 match(Tag.WHILE);
                 match(Tag.LPT);
                 bexpr();
@@ -172,9 +173,12 @@ public class Translator {
                     id_addr = count;
                     st.insert(((Word) look).lexeme, count++);
                 }
-                code.emit(OpCode.iload, id_addr);// adding to the instruction list "iload ID"
+                if(read_assign == 1){//assignment operation
+                    code.emit(OpCode.invokestatic,0);//invokestatic 0 is the Input/Reading operation
+                }//reading operation
+                    code.emit(OpCode.istore,id_addr);
                 match(Tag.ID);
-                idlistp();
+                idlistp(read_assign);
                 break;
 
             default:
@@ -184,7 +188,7 @@ public class Translator {
         }
     }
 
-    private void idlistp() {
+    private void idlistp(int read_assign) {
         switch (look.tag) {
             //Guida(<idlistp> => , ID <idlistp>) = [,]
             case Tag.COMMA:
@@ -196,7 +200,11 @@ public class Translator {
                 }
                 code.emit(OpCode.iload, id_addr);// adding to the instruction list "iload ID"
                 match(Tag.ID);
-                idlistp();
+                if(read_assign == 1){//assignment operation
+                    code.emit(OpCode.invokestatic,0);//invokestatic 0 is the Input/Reading operation
+                }//reading operation
+                    code.emit(OpCode.istore,id_addr);
+                idlistp(read_assign);
                 break;
 
             //Guida(<idlistp> => epsilon) = [) , end else EOF }]
@@ -316,30 +324,12 @@ public class Translator {
     private void exprlist() {
         switch (look.tag) {
             //Guida(<exprlist> => <expr><exprlistp>) = [+ - * / NUM ID]
-            case Tag.SUM:
+            case Tag.SUM,Tag.SUB,Tag.MUL,Tag.DIV,Tag.NUM,Tag.ID:
                 expr();
+                code.emit(OpCode.invokestatic,1);//invokestatic is for output operation
                 exprlistp();
                 break;
-            case Tag.SUB:
-                expr();
-                exprlistp();
-                break;
-            case Tag.MUL:
-                expr();
-                exprlistp();
-                break;
-            case Tag.DIV:
-                expr();
-                exprlistp();
-                break;
-            case Tag.NUM:
-                expr();
-                exprlistp();
-                break;
-            case Tag.ID:
-                expr();
-                exprlistp();
-                break;
+            
             default:
                 error("Error in exprlist()");
                 break;
@@ -353,6 +343,7 @@ public class Translator {
             case Tag.COMMA:
                 match(Tag.COMMA);
                 expr();
+                code.emit(OpCode.invokestatic,1);//invokestatic is for output operation
                 exprlistp();
                 break;
 
