@@ -94,7 +94,7 @@ public class Parser2 {
                 stat();
                 statlistp();
                 break;
-            case Tag.RGT:
+            case Tag.LPG:
                 stat();
                 statlistp();
                 break;
@@ -117,7 +117,7 @@ public class Parser2 {
             case Tag.EOF:
                 break;
 
-            case Tag.RGT:
+            case Tag.RPG:
                 break;
 
             default:
@@ -181,7 +181,7 @@ public class Parser2 {
             case Tag.LPG:
                 match(Tag.LPG);
                 statlist();
-                match(Tag.RGT);
+                match(Tag.RPG);
                 break;
 
             default:
@@ -244,7 +244,7 @@ public class Parser2 {
                 break;
             case Tag.EOF:
                 break;
-            case Tag.RGT:
+            case Tag.RPG:
                 break;
 
             default:
