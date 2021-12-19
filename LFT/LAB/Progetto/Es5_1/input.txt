@@ -1,4 +1,5 @@
-assign 10 to x;
-assign 20 to y;
-assign 30 to z;
-print(+(x,*(y,z)))
+read(a,b);
+while (<> a b)
+	if (> a b) assign - a b to a
+	else assign - b a to b end;
+print(a)

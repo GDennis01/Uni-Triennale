@@ -33,6 +33,7 @@ public class Translator {
     }
 
     public void prog() {
+        //TODO: MULTIPLE ASSIGNMENT
         switch (look.tag) {
             // Guida(<prog> => <statlist> EOF) = [assign print read while if { ]
             case Tag.ASSIGN, Tag.PRINT, Tag.READ, Tag.WHILE, Tag.IF, Tag.LPG:
@@ -80,7 +81,7 @@ public class Translator {
             default:
                 error("Error in statlistp()");
                 break;
-        }// todo: PRENDI PIZZA
+        }
     }
 
     public void stat( /* completare */ ) {
@@ -226,7 +227,6 @@ public class Translator {
                     id_addr = count;
                     st.insert(((Word) look).lexeme, count++);
                 }
-                code.emit(OpCode.iload, id_addr);// adding to the instruction list "iload ID"
                 match(Tag.ID);
                 if (read_assign == 0) {// reading operation
                     code.emit(OpCode.invokestatic, 0);// invokestatic 0 is the Input/Reading operation
@@ -374,18 +374,18 @@ public class Translator {
             case Tag.COMMA:
                 match(Tag.COMMA);
                 expr();
-                switch(sum_mul){
+                switch (sum_mul) {
                     case 0:
-                    code.emit(OpCode.iadd);
+                        code.emit(OpCode.iadd);
                         break;
                     case 1:
-                    code.emit(OpCode.imul);
+                        code.emit(OpCode.imul);
                         break;
                     case 2:
-                    code.emit(OpCode.invokestatic, 1);
+                        code.emit(OpCode.invokestatic, 1);
                         break;
                 }
-                
+
                 exprlistp(sum_mul);
                 break;
 
