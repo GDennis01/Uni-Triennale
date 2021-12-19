@@ -58,8 +58,8 @@ public class Translator {
         switch (look.tag) {
             // Guida(<statlist> => <stat><statlistp>) = [assign print read while if { ]
             case Tag.ASSIGN, Tag.PRINT, Tag.READ, Tag.WHILE, Tag.IF, Tag.LPG:
-                stat(/* */);
-                statlistp(/**/);
+                stat();
+                statlistp();
                 break;
         }
     }
@@ -90,14 +90,14 @@ public class Translator {
                 match(Tag.ASSIGN);
                 expr();
                 match(Tag.TO);
-                idlist(1);
+                idlist(1);// assignment operation
                 break;
 
             // Guida(<stat> => print(<exprlist>)) = [print]
             case Tag.PRINT:
                 match(Tag.PRINT);
                 match(Tag.LPT);
-                exprlist(2);//print operation
+                exprlist(2);// print operation
                 match(Tag.RPT);
                 break;
 
@@ -294,18 +294,16 @@ public class Translator {
             case Tag.SUM:
                 match(Tag.SUM);
                 match(Tag.LPT);
-                exprlist(0);//sum operation
+                exprlist(0);// sum operation
                 match(Tag.RPT);
-                code.emit(OpCode.iadd);
                 break;
 
             // Guida(<expr> => *(<exprlist>)) = [+]
             case Tag.MUL:
                 match(Tag.MUL);
                 match(Tag.LPT);
-                exprlist(1);//mul operation
+                exprlist(1);// mul operation
                 match(Tag.RPT);
-                code.emit(OpCode.imul);
                 break;
 
             // Guida(<expr> => - <expr> <expr>) = [-]
@@ -356,14 +354,11 @@ public class Translator {
             // Guida(<exprlist> => <expr><exprlistp>) = [+ - * / NUM ID]
             case Tag.SUM, Tag.SUB, Tag.MUL, Tag.DIV, Tag.NUM, Tag.ID:
                 expr();
-                exprlistp();
+                if (sum_mul == 2)
+                    code.emit(OpCode.invokestatic, 1);
+                exprlistp(sum_mul);
                 // code.emit(OpCode.invokestatic, 1);// invokestatic is for output operation
-                if (sum_mul == 0)
-                    code.emit(OpCode.iadd);
-                if (sum_mul == 1)
-                    code.emit(OpCode.imul);
-                else 
-                    code.emit(OpCode.invokestatic,1);
+
                 break;
 
             default:
@@ -373,14 +368,25 @@ public class Translator {
 
     }
 
-    private void exprlistp() {
+    private void exprlistp(int sum_mul) {
         switch (look.tag) {
             // Guida(<exprlistp> => , <expr><exprlistp>) = [,]
             case Tag.COMMA:
                 match(Tag.COMMA);
                 expr();
-                code.emit(OpCode.invokestatic, 1);// invokestatic is for output operation
-                exprlistp();
+                switch(sum_mul){
+                    case 0:
+                    code.emit(OpCode.iadd);
+                        break;
+                    case 1:
+                    code.emit(OpCode.imul);
+                        break;
+                    case 2:
+                    code.emit(OpCode.invokestatic, 1);
+                        break;
+                }
+                
+                exprlistp(sum_mul);
                 break;
 
             // Guida(<exprlistp> => epsilon) = [)]

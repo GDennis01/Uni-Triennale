@@ -1,6 +1,4 @@
-print(1,+(2,3,4));
-if (> x y) print(x) else print(y) end;
-while (> x 0) {
-	assign - x 1 to x;
-	print(x)
-}
+assign 10 to x;
+assign 20 to y;
+assign 30 to z;
+print(+(x,*(y,z)))
