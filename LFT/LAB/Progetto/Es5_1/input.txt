@@ -1,0 +1,6 @@
+print(1,+(2,3,4));
+if (> x y) print(x) else print(y) end;
+while (> x 0) {
+	assign - x 1 to x;
+	print(x)
+}
