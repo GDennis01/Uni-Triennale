@@ -1,0 +1,38 @@
+if (|| < x 10 && > x 20 ! > x 30)
+    print(+(x,100))
+else
+    print(x)
+end
+/*
+if(x<10 || (x<20 && !(x>30)))
+	print(x)
+else
+	print(x+2)
+
+iload x
+iload 10
+
+if_icmpgt if_true
+goto falso
+falso:
+iload x
+iload 20
+
+if_icmplt half_true
+goto else 
+half_true:
+iload x
+iload 30
+
+if_icmpgt false//false invertito con full_true per INEG
+goto full_true
+full_true:
+invokestatic print
+goto fine
+falso:
+invokestatic print
+goto fine
+
+
+
+*/
