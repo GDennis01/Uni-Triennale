@@ -265,7 +265,8 @@ public class Translator {
                 }
                 if (tmp.equals(Word.le.lexeme)) {
                     code.emit(OpCode.if_icmple, labelTrue);
-                }
+                }//|| < x 10 && > x 20 ! > x 30
+                 //||=+  &&=*  < = -  > = +   +-X10*+X20/+X30
                 if (tmp.equals(Word.lt.lexeme)) {
                     code.emit(OpCode.if_icmplt, labelTrue);
                 }

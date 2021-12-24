@@ -122,10 +122,10 @@ public class Translator {
                 match(Tag.WHILE);
                 match(Tag.LPT);
 
-                bexpr(labelTrue, labelFalse,2);// emit conditional operation (ie: if_icmpe true)
+                bexpr(labelTrue, labelFalse);// emit conditional operation (ie: if_icmpe true)
 
                 match(Tag.RPT);
-                code.emit(OpCode.GOto, labelFalse); // emit "goto false" right after conditional operation(see above)
+                //code.emit(OpCode.GOto, labelFalse); // emit "goto false" right after conditional operation(see above)
                 code.emitLabel(labelTrue);// after the goto instruction, I emit the true label used by the conditional
                                           // operation
                 stat();
@@ -142,10 +142,10 @@ public class Translator {
                 match(Tag.IF);
                 match(Tag.LPT);
 
-                bexpr(labelTrue, labelFalse,2);// emit conditional operation (ie: if_icmpe true)
+                bexpr(labelTrue, labelFalse);// emit conditional operation (ie: if_icmpe true)
 
                 match(Tag.RPT);
-                code.emit(OpCode.GOto, labelFalse);// I emit goto false right after conditional operation
+               // code.emit(OpCode.GOto, labelFalse);// I emit goto false right after conditional operation
                 code.emitLabel(labelTrue);// I emit true label
                 stat();
                 statp(labelTrue, labelFalse);
@@ -245,17 +245,18 @@ public class Translator {
         }
     }
     //logic operator can be either 0 1 or 2. 0=logical OR  1=logical AND  2=no logical operator
-    private void bexpr(int labelTrue, int labelFalse,int logic_operator) {
+    private void bexpr(int labelTrue, int labelFalse) {
         switch (look.tag) {
             // Guida(<bexpr> => RELOP <expr> <expr>) = [RELOP]
             case Tag.RELOP:
-                String tmp = ((Word) look).lexeme;// relation operator(es: != < > <= >= etc)
+                String tmp = ((Word) look).lexeme;// relational operator(es: != < > <= >= etc)
                 match(Tag.RELOP);
                 expr();
                 expr(); 
 
                 if (tmp.equals(Word.eq.lexeme)) {// if relop is equals to "=" then I emit ifcmpeq
                     code.emit(OpCode.if_icmpeq, labelTrue);
+                    
                 }
                 if (tmp.equals(Word.ge.lexeme)) {
                     code.emit(OpCode.if_icmpge, labelTrue);
@@ -265,7 +266,7 @@ public class Translator {
                 }
                 if (tmp.equals(Word.le.lexeme)) {
                     code.emit(OpCode.if_icmple, labelTrue);
-                }//|| < x 10 && > x 20 ! > x 30
+                }
                  
                 if (tmp.equals(Word.lt.lexeme)) {
                     code.emit(OpCode.if_icmplt, labelTrue);
@@ -273,6 +274,7 @@ public class Translator {
                 if (tmp.equals(Word.ne.lexeme)) {
                     code.emit(OpCode.if_icmpne, labelTrue);
                 }
+                code.emit(OpCode.GOto, labelFalse);
             break;
                 /*
                  * if(valore ereditato diverso da 0)
@@ -293,28 +295,32 @@ public class Translator {
     }
 
     private void bool(int labelTrue,int labelFalse){
+        int aux_label=code.newLabel();
         switch(look.tag){
-            //Guida(<boolp> => AND <expr> <expr>) = [AND]
+            //Guida(<bool> => AND <boolp> <boolp>) = [AND]
             case Tag.AND:
                 match(Tag.AND);
-                boolp(labelTrue,labelFalse,1);
-                boolp(labelTrue,labelFalse,1);
+                boolp(aux_label,labelFalse);
+                code.emitLabel(aux_label);
+                boolp(labelTrue,labelFalse);
                 break;
-            //Guida(<boolp> => OR <expr> <expr>) = [NOT]
+            //Guida(<bool> => OR <boolp> <boolp>) = [OR]
             case Tag.OR:
                 match(Tag.OR);
-                boolp(labelTrue,labelFalse,0);
-                boolp(labelTrue,labelFalse,0);
+                boolp(labelTrue,aux_label);
+                code.emitLabel(aux_label);
+                boolp(labelTrue,labelFalse);
                 break;
-            //Guida(<boolp> => NOT <expr> <expr>) = [NOT]
+            //Guida(<bool> => NOT <boolp>) = [NOT]
             case '!':
                 match('!');
-                boolp(labelFalse,labelFalse,2);
+                boolp(labelFalse,labelTrue);//to negate a conditional statement, I just need to swap the label
                 break;
         }
     }
 
-    private void boolp(int labelTrue,int labelFalse,int logical_operator){
+    private void boolp(int labelTrue,int labelFalse){
+       
         switch (look.tag) {
             // Guida(<boolp> => RELOP <expr> <expr>) = [RELOP]
             case Tag.RELOP:
@@ -342,6 +348,7 @@ public class Translator {
                 if (tmp.equals(Word.ne.lexeme)) {
                     code.emit(OpCode.if_icmpne, labelTrue);
                 }
+                code.emit(OpCode.GOto,labelFalse);
             break;
                 /*
                  * if(valore ereditato diverso da 0)
@@ -355,7 +362,7 @@ public class Translator {
                 break;
 
             default:
-                error("Error in bexpr()");
+                error("Error in boolp()");
                 break;
         }
 
