@@ -33,7 +33,6 @@ public class Translator {
     }
 
     public void prog() {
-        //TODO: MULTIPLE ASSIGNMENT
         switch (look.tag) {
             // Guida(<prog> => <statlist> EOF) = [assign print read while if { ]
             case Tag.ASSIGN, Tag.PRINT, Tag.READ, Tag.WHILE, Tag.IF, Tag.LPG:
@@ -91,7 +90,7 @@ public class Translator {
                 match(Tag.ASSIGN);
                 expr();
                 match(Tag.TO);
-                idlist(1);// assignment operation
+                idlist(1,0);// assignment operation
                 break;
 
             // Guida(<stat> => print(<exprlist>)) = [print]
@@ -106,7 +105,7 @@ public class Translator {
             case Tag.READ:
                 match(Tag.READ);
                 match('(');
-                idlist(0);// 0 is for reading operation
+                idlist(0,0);// 0 is for reading operation
                 match(')');
                 // ... completare ...
                 break;
@@ -193,7 +192,7 @@ public class Translator {
 
     // read_assign is a boolean value that can either be 0(reading operation) or
     // 1(assignament operation)
-    private void idlist(int read_assign) {
+    private void idlist(int read_assign, int lista) {
         switch (look.tag) {
             // Guida(<idlist> => ID <idlistp>) = [if]
             case Tag.ID:
@@ -207,7 +206,8 @@ public class Translator {
                 } // assignment operation
                 code.emit(OpCode.istore, id_addr);
                 match(Tag.ID);
-                idlistp(read_assign);
+                lista++;
+                idlistp(read_assign,lista);
                 break;
 
             default:
@@ -217,7 +217,7 @@ public class Translator {
         }
     }
 
-    private void idlistp(int read_assign) {
+    private void idlistp(int read_assign,int lista) {
         switch (look.tag) {
             // Guida(<idlistp> => , ID <idlistp>) = [,]
             case Tag.COMMA:
@@ -228,11 +228,22 @@ public class Translator {
                     st.insert(((Word) look).lexeme, count++);
                 }
                 match(Tag.ID);
+                lista++;
                 if (read_assign == 0) {// reading operation
                     code.emit(OpCode.invokestatic, 0);// invokestatic 0 is the Input/Reading operation
+                    code.emit(OpCode.istore, id_addr);
                 } // assignment operation
-                code.emit(OpCode.istore, id_addr);
-                idlistp(read_assign);
+                else {
+                    if(lista > 0){
+                        code.emit(OpCode.iload, id_addr-1);
+                        code.emit(OpCode.istore, id_addr);
+                        lista--;
+                    } else {
+                        code.emit(OpCode.istore, id_addr);
+                    }
+                }
+                //lista--;
+                idlistp(read_assign,lista);
                 break;
 
             // Guida(<idlistp> => epsilon) = [) , end else EOF }]
@@ -244,6 +255,7 @@ public class Translator {
                 break;
         }
     }
+    
     //logic operator can be either 0 1 or 2. 0=logical OR  1=logical AND  2=no logical operator
     private void bexpr(int labelTrue, int labelFalse) {
         switch (look.tag) {

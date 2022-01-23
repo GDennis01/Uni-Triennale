@@ -1,5 +1,9 @@
-read(a,b);
-while (<> a b)
-	if (> a b) assign - a b to a
-	else assign - b a to b end;
-print(a)
+assign 10 to a,b,c;
+print(a,b,c);
+read(x,y);
+print(x,y);
+print(1,+(2,3,4));
+if (> x y) print(x) else print(y) end;
+while (> x 0) {
+	assign - x 1 to x
+}

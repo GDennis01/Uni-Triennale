@@ -32,6 +32,24 @@
  .limit locals 256
  invokestatic Output/read()I
  istore 0
+ invokestatic Output/read()I
+ istore 1
+ invokestatic Output/read()I
+ istore 2
+ iload 0
+ invokestatic Output/print(I)V
+ iload 1
+ invokestatic Output/print(I)V
+ iload 2
+ invokestatic Output/print(I)V
+ ldc 5
+ istore 3
+ iload 3
+ istore 4
+ iload 3
+ invokestatic Output/print(I)V
+ iload 4
+ invokestatic Output/print(I)V
  iload 0
  ldc 10
  if_icmplt L1
