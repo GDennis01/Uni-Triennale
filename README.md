@@ -1,2 +1,2 @@
 #### Uni
-Raccolta di esercizi delle varie materie universitarie quali LFT e SO
+Raccolta di esercizi e appunti delle varie materie universitarie
