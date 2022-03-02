@@ -1,9 +1,0 @@
-read(x,y,z);
-print(x,y,z);
-assign 5 to a,b;
-print(a,b);
-if (|| < x 10 && > x 20 ! > x 30)
-    print(+(x,100))
-else
-    print(x)
-end

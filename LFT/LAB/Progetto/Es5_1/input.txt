@@ -1,9 +1,0 @@
-assign 10 to a,b,c;
-print(a,b,c);
-read(x,y);
-print(x,y);
-print(1,+(2,3,4));
-if (> x y) print(x) else print(y) end;
-while (> x 0) {
-	assign - x 1 to x
-}
